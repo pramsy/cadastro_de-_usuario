@@ -23,7 +23,7 @@ class StoreUsuarioRequest extends FormRequest
     {
         return [
             'nome'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:usuarios,email',
             'cep'   => 'required|digits:8',
         ];
     }
