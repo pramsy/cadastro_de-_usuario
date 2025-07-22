@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($usuarios as $usuario)
+            @forelse ($usuarios as $usuario)
                 <tr>
                     <td>{{ $usuario->nome }}</td>
                     <td>{{ $usuario->email }}</td>
@@ -42,7 +42,12 @@
                     </td>
 
                 </tr>
-            @endforeach
+                
+            @empty
+                <tr>
+                    <td colspan="8" class="text-center text-danger">Nenhum usuário Encontrado.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
     <div class="d-flex justify-content-center p-3">        

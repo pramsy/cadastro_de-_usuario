@@ -6,7 +6,7 @@ Este projeto é um sistema simples de cadastro de usuários desenvolvido com **L
 
 ## Funcionalidades
 
-- Cadastro de usuários com validação (FormRequest)
+- Cadastro de usuários com validação
 - Preenchimento automático de endereço via [ViaCEP](https://viacep.com.br/)
 - Listagem de usuários com paginação
 - Busca por **nome**, **email** e **CEP**

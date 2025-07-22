@@ -19,11 +19,22 @@ class UsuarioWebController extends Controller{
     }
     public function store(Request $request)
     {
-        $request->validate([
+         $regras = [
             'nome'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:usuarios,email',
             'cep'   => 'required|digits:8',
-        ]);
+        ];
+        $fedback = [
+            
+            'required'=> 'O campo  :attribute é obrigatório',
+            'unique'  => 'Os dados do campo :attribute existe ja no sistema',
+            'digits'  => 'O campo Cep dever conter sómente 8 numero',
+            'email'   => 'O campo email dever conter um email válido'
+        ];
+        $request->validate($regras, $fedback);
+
+        
+
 
         $cep = $request->input('cep');
         $response = Http::get("https://viacep.com.br/ws/$cep/json/");
