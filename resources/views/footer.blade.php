@@ -1,10 +1,11 @@
-<section class="py-4">
+<section class="site-footer w-full lg:max-w-5xl mt-8">
  
-  <footer class="text-center text-white bg-secondary">
+  <footer class="text-center">
     
-    <div class="text-center p-3 bg-dark bg-gradient" >
-      © 2025 
-      <a class="text-white" href="https://pramsy.github.io/rami/">Ramses Pierre </a>Todos os direitos reservados.
+    <div class="footer-content text-center p-3">
+      <span>© 2025</span>
+      <a href="https://pramsy.github.io/meu-portfolio/index.html">Ramses Pierre</a>
+      <span>Todos os direitos reservados.</span>
     </div>
     <!-- Copyright -->
   </footer>

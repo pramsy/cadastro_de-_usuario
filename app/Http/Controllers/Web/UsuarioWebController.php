@@ -27,6 +27,7 @@ class UsuarioWebController extends Controller{
         $fedback = [
             
             'required'=> 'O campo  :attribute é obrigatório',
+            'nome.max'=>'O campo nome deve ter no maximo 255  Caratere',
             'unique'  => 'Os dados do campo :attribute existe ja no sistema',
             'digits'  => 'O campo Cep dever conter sómente 8 numero',
             'email'   => 'O campo email dever conter um email válido'

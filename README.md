@@ -1,50 +1,122 @@
-# Sistema de Cadastro de Usuários com Laravel + API ViaCEP
+# Cadastro de Usuários e Endereços
 
-Este projeto é um sistema simples de cadastro de usuários desenvolvido com **Laravel**, integrado à **API ViaCEP** para preenchimento automático de endereço. Ele utiliza **Docker** para facilitar o ambiente de desenvolvimento e produção.
-
----
+Aplicação web desenvolvida com Laravel para cadastrar usuários e seus endereços. Ao informar um CEP válido, o sistema consulta a [API ViaCEP](https://viacep.com.br/) e preenche os dados de logradouro, bairro, cidade e estado.
 
 ## Funcionalidades
 
-- Cadastro de usuários com validação
-- Preenchimento automático de endereço via [ViaCEP](https://viacep.com.br/)
-- Listagem de usuários com paginação
-- Busca por **nome**, **email** e **CEP**
-- Atualização e exclusão de usuários
-- Testes automatizados
-
----
+- Cadastro de usuário com nome, e-mail e CEP.
+- Validação dos campos obrigatórios, formato do e-mail e quantidade de dígitos do CEP.
+- Preenchimento do endereço por meio da API ViaCEP.
+- Listagem paginada de usuários, com cinco registros por página.
+- Busca por nome, e-mail ou CEP.
+- Visualização, edição e exclusão de usuários.
+- Exclusão em cascata do endereço relacionado ao usuário.
 
 ## Tecnologias
 
-- PHP 8.2 / Laravel 10
-- MySQL (via Docker)
-- Blade + Bootstrap 5
-- Docker + Docker Compose
+- PHP 8.3 no ambiente Docker.
+- Laravel 12.
+- MySQL 5.7.
+- Blade e Vite.
+- Nginx e PHP-FPM.
+- Docker Compose.
+- PHPUnit para testes automatizados.
 
----
+## Pré-requisitos
 
-##  Como rodar localmente com Docker
+- Docker Desktop com Docker Compose.
+- Git.
+- Para executar o Vite fora do container: Node.js e npm.
 
-1. Clone este repositório:
+## Como executar com Docker
+
+Clone o repositório e acesse a pasta do projeto:
 
 ```bash
-git clone https://github.com/spramsy/cadastro_de-_usuario.git
+git clone https://github.com/pramsy/cadastro_de-_usuario.git
 cd cadastro_de-_usuario
-## 
+```
 
-2. Suba os containers:
-docker-compose up -d
+Crie o arquivo de ambiente, caso ele ainda não exista:
 
-3. Gere a chave da aplicação:
-docker-compose exec app php artisan key:generate
+```bash
+cp .env.example .env
+```
 
-4. rodar as migração:
-php artisan migrate
+Suba os serviços da aplicação:
 
+```bash
+docker compose up -d --build
+```
 
-5.Acesse: http://localhost:8080
+Instale as dependências PHP, gere a chave da aplicação e execute as migrations:
 
-Comandos úteis:
-php artisan test – Rodar testes
+```bash
+docker compose exec app composer install
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan migrate
+```
+
+A aplicação estará disponível em [http://localhost:8000](http://localhost:8000).
+
+> O banco MySQL é criado com banco `laravel`, usuário `laravel`, senha `laravel` e senha do root `root`, conforme o arquivo `docker-compose.yml`. O host do banco para a aplicação é `db`.
+
+## Front-end
+
+As dependências JavaScript ficam no projeto raiz. Para instalar e gerar os assets:
+
+```bash
+npm install
+npm run build
+```
+
+Durante o desenvolvimento, o Vite pode ser executado com:
+
+```bash
+npm run dev
+```
+
+## Testes
+
+Execute a suíte de testes dentro do container:
+
+```bash
+docker compose exec app php artisan test
+```
+
+Os testes de funcionalidade cobrem o cadastro com dados válidos e a validação dos campos obrigatórios.
+
+## Comandos úteis
+
+```bash
+docker compose ps                         # Lista os serviços
+docker compose logs -f app                 # Acompanha os logs do Laravel
+docker compose exec app php artisan migrate:status
+docker compose exec app php artisan route:list
+docker compose down                        # Para e remove os containers
+```
+
+## Estrutura principal
+
+```text
+app/Http/Controllers/Web/  Controlador das telas de usuários
+app/Models/                Modelos Usuario e Endereco
+database/migrations/       Estrutura das tabelas usuarios e enderecos
+resources/views/           Templates Blade
+routes/web.php             Rotas da aplicação web
+tests/Feature/             Testes de funcionalidade
+```
+
+## Rotas web
+
+| Método | URI | Finalidade |
+| --- | --- | --- |
+| GET | `/` | Página inicial |
+| GET | `/create` | Formulário de cadastro |
+| POST | `/users` | Cria um usuário e consulta o ViaCEP |
+| GET | `/users` | Lista e busca usuários |
+| GET | `/read/{id}` | Exibe um usuário |
+| GET | `/edit/{id}` | Formulário de edição |
+| PUT | `/edit/{id}` | Atualiza um usuário e seu endereço |
+| DELETE | `/delete/{id}` | Exclui um usuário e seu endereço |
 
